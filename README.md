@@ -1,42 +1,141 @@
-### Project Overview: Airflow ETL Pipeline with Postgres and API Integration
+# 🚀 Airflow ETL Pipeline with Postgres and API Integration
 
-This project involves creating an ETL (Extract, Transform, Load) pipeline using Apache Airflow. The pipeline extracts data from an external API (in this case, NASA's Astronomy Picture of the Day (APOD) API), transforms the data, and loads it into a Postgres database. The entire workflow is orchestrated by Airflow, a platform that allows scheduling, monitoring, and managing workflows.
+## 📌 Project Overview
 
-The project leverages Docker to run Airflow and Postgres as services, ensuring an isolated and reproducible environment. We also utilize Airflow hooks and operators to handle the ETL process efficiently.
+This project involves building an ETL (Extract, Transform, Load) pipeline using **Apache Airflow**, **PostgreSQL**, and **NASA's Astronomy Picture of the Day (APOD) API**. The pipeline is designed to extract data from the external API, transform it into a structured format, and load it into a **Postgres database**.
 
-Key Components of the Project:
-Airflow for Orchestration:
+Airflow acts as the orchestrator, managing task dependencies and scheduling the entire workflow. **Docker** is used to containerize Airflow and Postgres services, ensuring an isolated and reproducible environment.
 
-Airflow is used to define, schedule, and monitor the entire ETL pipeline. It manages task dependencies, ensuring that the process runs sequentially and reliably.
-The Airflow DAG (Directed Acyclic Graph) defines the workflow, which includes tasks like data extraction, transformation, and loading.
-Postgres Database:
+---
 
-A PostgreSQL database is used to store the extracted and transformed data.
-Postgres is hosted in a Docker container, making it easy to manage and ensuring data persistence through Docker volumes.
-We interact with Postgres using Airflow’s PostgresHook and PostgresOperator.
-NASA API (Astronomy Picture of the Day):
+## 🔗 Key Components
 
-The external API used in this project is NASA’s APOD API, which provides data about the astronomy picture of the day, including metadata like the title, explanation, and the URL of the image.
-We use Airflow’s SimpleHttpOperator to extract data from the API.
-Objectives of the Project:
-Extract Data:
+### 🏗️ **Airflow for Orchestration**
 
-The pipeline extracts astronomy-related data from NASA’s APOD API on a scheduled basis (daily, in this case).
-Transform Data:
+- Defines, schedules, and monitors the ETL pipeline.
+- Uses a **Directed Acyclic Graph (DAG)** to structure task dependencies.
+- Handles task execution reliability and monitoring.
 
-Transformations such as filtering or processing the API response are performed to ensure that the data is in a suitable format before being inserted into the database.
-Load Data into Postgres:
+### 🗄️ **PostgreSQL Database**
 
-The transformed data is loaded into a Postgres database. The data can be used for further analysis, reporting, or visualization.
-Architecture and Workflow:
-The ETL pipeline is orchestrated in Airflow using a DAG (Directed Acyclic Graph). The pipeline consists of the following stages:
+- Stores the extracted and transformed data.
+- Runs as a **Docker container**, ensuring easy management and persistent data storage.
+- Utilizes **PostgresHook** and **PostgresOperator** in Airflow for interaction.
 
-1. Extract (E):
-   The SimpleHttpOperator is used to make HTTP GET requests to NASA’s APOD API.
-   The response is in JSON format, containing fields like the title of the picture, the explanation, and the URL to the image.
-2. Transform (T):
-   The extracted JSON data is processed in the transform task using Airflow’s TaskFlow API (with the @task decorator).
-   This stage involves extracting relevant fields like title, explanation, url, and date and ensuring they are in the correct format for the database.
-3. Load (L):
-   The transformed data is loaded into a Postgres table using PostgresHook.
-   If the target table doesn’t exist in the Postgres database, it is created automatically as part of the DAG using a create table task.
+### 🌌 **NASA API (Astronomy Picture of the Day)**
+
+- External API providing daily astronomy-related images and metadata.
+- Includes fields such as `title`, `explanation`, and `image URL`.
+- Accessed via **Airflow's SimpleHttpOperator** to extract data.
+
+---
+
+## 🎯 Project Objectives
+
+✔ **Extract Data**:
+
+- Fetch astronomy-related metadata daily from NASA's **APOD API**.
+
+✔ **Transform Data**:
+
+- Process and filter the API response to ensure a structured format.
+
+✔ **Load Data**:
+
+- Store the processed data in a **PostgreSQL database** for further analysis and reporting.
+
+---
+
+## 🏛️ Architecture & Workflow
+
+The ETL pipeline follows the **DAG (Directed Acyclic Graph)** structure in Airflow, with the following key stages:
+
+1️⃣ **Extract (E):**
+
+- Uses `SimpleHttpOperator` to send `GET` requests to NASA's APOD API.
+- Receives JSON responses containing image metadata.
+
+2️⃣ **Transform (T):**
+
+- Processes and extracts relevant fields (`title`, `explanation`, `url`, `date`).
+- Ensures data is formatted correctly before loading into Postgres.
+- Utilizes Airflow’s **TaskFlow API** (`@task` decorator) for transformation.
+
+3️⃣ **Load (L):**
+
+- Uses `PostgresHook` to insert structured data into a **Postgres table**.
+- Creates the table automatically if it doesn't exist.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Apache Airflow** 🌀 – Workflow orchestration
+- **PostgreSQL** 🗃️ – Database storage
+- **Docker** 🐳 – Containerization
+- **Python** 🐍 – Scripting and data processing
+- **NASA APOD API** 🌠 – External data source
+
+---
+
+## 🏁 Getting Started
+
+### 🔹 Prerequisites
+
+Ensure you have the following installed:
+
+- **Docker & Docker Compose**
+- **Python 3.8+**
+- **Git**
+
+### 🔹 Installation & Setup
+
+1. **Clone the Repository**:
+   ```sh
+   git clone https://github.com/Chetan-Patil13/ETL-Pipeline-Nasa.git
+   cd ETL-Pipeline-Nasa
+   ```
+2. **Start the Airflow & Postgres Services**:
+   ```sh
+   docker-compose up -d
+   ```
+3. **Access Airflow UI**:
+
+   - Open [http://localhost:8080](http://localhost:8080)
+   - Default credentials: `airflow/airflow`
+
+4. **Trigger the DAG**:
+   - Navigate to `ml_pipeline` in the **Airflow UI**
+   - Click **Trigger DAG** ▶️
+
+---
+
+## 📊 Expected Output
+
+- Data from NASA's APOD API gets extracted and stored in **Postgres**.
+- The pipeline runs **daily** as per the schedule defined in Airflow.
+- Logs and task status can be monitored in **Airflow UI**.
+
+---
+
+## 📌 Future Improvements
+
+🔹 Add **data validation** before inserting into Postgres.
+🔹 Implement **logging & alerting** for failures.
+🔹 Integrate **visualization tools** like Power BI or Tableau.
+
+---
+
+## 🙌 Contribution
+
+Feel free to fork this repository and contribute! Suggestions and pull requests are welcome. 😊
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+🚀 **Happy Coding & Keep Exploring the Universe! 🌌**
